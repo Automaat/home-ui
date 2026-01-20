@@ -4,7 +4,8 @@
 	let className = '';
 	export { className as class };
 
-	$: cardClass = variant !== 'default' ? `card card-${variant} ${className}` : `card ${className}`;
+	$: variantClass = variant !== 'default' ? `card-${variant}` : '';
+	$: cardClass = `card ${variantClass} ${className}`.trim();
 </script>
 
 <div class={cardClass}>

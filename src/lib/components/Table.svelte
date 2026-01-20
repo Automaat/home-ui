@@ -1,12 +1,13 @@
 <script lang="ts">
 	export let headers: string[] = [];
+	export let ariaLabel: string | undefined = undefined;
 
 	let className = '';
 	export { className as class };
 </script>
 
 <div class="table-container {className}">
-	<table>
+	<table aria-label={ariaLabel}>
 		<thead>
 			<tr>
 				{#each headers as header}

@@ -23,7 +23,7 @@
 	on:focus
 >
 	{#if placeholder}
-		<option value="" disabled selected={value === '' || value == null}>{placeholder}</option>
+		<option value="" disabled selected={value === '' || value === undefined || value === null}>{placeholder}</option>
 	{/if}
 	{#each options as option}
 		<option value={option.value}>{option.label}</option>

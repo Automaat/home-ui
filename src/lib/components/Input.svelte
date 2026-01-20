@@ -61,4 +61,9 @@
 		opacity: 0.5;
 		cursor: not-allowed;
 	}
+
+	.input:read-only {
+		background: var(--color-bg-card);
+		cursor: default;
+	}
 </style>

@@ -9,7 +9,7 @@
 
 	$: buttonClass =
 		variant === 'icon'
-			? `btn-icon ${className}`
+			? `btn-icon btn-icon-${size} ${className}`.trim()
 			: `btn btn-${variant} btn-${size} ${className}`.trim();
 </script>
 
@@ -75,11 +75,6 @@
 		font-size: var(--font-size-1);
 	}
 
-	.btn-medium {
-		padding: var(--size-3) var(--size-5);
-		font-size: var(--font-size-2);
-	}
-
 	.btn-large {
 		padding: var(--size-4) var(--size-6);
 		font-size: var(--font-size-3);
@@ -101,5 +96,20 @@
 	.btn-icon:disabled {
 		opacity: 0.5;
 		cursor: not-allowed;
+	}
+
+	.btn-icon-small {
+		padding: var(--size-1);
+		font-size: var(--font-size-2);
+	}
+
+	.btn-icon-medium {
+		padding: var(--size-2);
+		font-size: var(--font-size-3);
+	}
+
+	.btn-icon-large {
+		padding: var(--size-3);
+		font-size: var(--font-size-4);
 	}
 </style>
