@@ -1,6 +1,10 @@
 {
 	"name": "@mskalski/home-ui",
 	"version": "0.4.1",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Automaat/home-ui.git"
+	},
 	"type": "module",
 	"svelte": "./dist/index.js",
 	"types": "./dist/index.d.ts",
