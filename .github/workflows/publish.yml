@@ -1,0 +1,89 @@
+name: Publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_bump:
+        description: 'Version bump type (ignored if manual_version is set)'
+        required: false
+        default: 'minor'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+      manual_version:
+        description: 'Manual version (e.g., 1.2.3) - overrides version_bump'
+        required: false
+        type: string
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+        with:
+          node-version: '20'
+          cache: 'npm'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Format check
+        run: npm run format:check
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type check
+        run: npm run check
+
+      - name: Security audit
+        run: npm run audit
+
+      - name: Build
+        run: npm run build
+
+      - name: Bump version
+        id: version
+        run: |
+          if [ -n "${{ inputs.manual_version }}" ]; then
+            echo "Using manual version: ${{ inputs.manual_version }}"
+            npm version ${{ inputs.manual_version }} --no-git-tag-version
+            NEW_VERSION=${{ inputs.manual_version }}
+          else
+            echo "Bumping version by: ${{ inputs.version_bump }}"
+            NEW_VERSION=$(npm version ${{ inputs.version_bump }} --no-git-tag-version | sed 's/v//')
+          fi
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Commit version bump
+        run: |
+          git add package.json package-lock.json
+          git commit -m "chore: bump version to ${{ steps.version.outputs.version }}"
+          git tag v${{ steps.version.outputs.version }}
+
+      - name: Publish to npm
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Push changes
+        run: |
+          git push origin main
+          git push origin v${{ steps.version.outputs.version }}
