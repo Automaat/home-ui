@@ -97,6 +97,13 @@ jobs:
         run: |
           git add package.json package-lock.json
           git commit -s -m "chore: bump version to ${{ steps.version.outputs.version }}"
+
+          # Delete remote branch if it exists (handles reruns)
+          if git ls-remote --exit-code --heads origin release/v${{ steps.version.outputs.version }} >/dev/null 2>&1; then
+            echo "Remote branch exists, deleting..."
+            git push origin --delete release/v${{ steps.version.outputs.version }}
+          fi
+
           git push origin release/v${{ steps.version.outputs.version }}
 
       - name: Create pull request
