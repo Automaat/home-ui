@@ -1,8 +1,8 @@
 <script lang="ts">
-	export let open = false;
+	export let open = $bindable(false);
 	export let title = '';
 	export let onConfirm: (() => void) | undefined = undefined;
-	export let onCancel: () => void;
+	export let onCancel: (() => void) | undefined = undefined;
 	export let confirmText: string | undefined = undefined;
 	export let cancelText = 'Anuluj';
 	export let confirmDisabled = false;
@@ -28,13 +28,21 @@
 
 	function handleOverlayClick(event: MouseEvent) {
 		if (event.target === event.currentTarget) {
-			onCancel();
+			if (onCancel) {
+				onCancel();
+			} else {
+				open = false;
+			}
 		}
 	}
 
 	function handleKeydown(event: KeyboardEvent) {
 		if (event.key === 'Escape') {
-			onCancel();
+			if (onCancel) {
+				onCancel();
+			} else {
+				open = false;
+			}
 		}
 	}
 
@@ -83,7 +91,11 @@
 			{#if showActions}
 				<div class="modal-actions">
 					<slot name="actions">
-						<button type="button" class="btn btn-secondary" on:click={onCancel}>
+						<button
+							type="button"
+							class="btn btn-secondary"
+							on:click={() => (onCancel ? onCancel() : (open = false))}
+						>
 							{cancelText}
 						</button>
 						{#if confirmText && onConfirm}

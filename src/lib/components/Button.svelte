@@ -1,10 +1,19 @@
 <script lang="ts">
-	export let variant: 'primary' | 'secondary' | 'icon' = 'primary';
+	export let variant: 'primary' | 'secondary' | 'success' | 'danger' | 'icon' = 'primary';
 	export let type: 'button' | 'submit' = 'button';
+	export let size: 'small' | 'medium' | 'large' = 'medium';
 	export let disabled: boolean = false;
+
+	let className = '';
+	export { className as class };
+
+	$: buttonClass =
+		variant === 'icon'
+			? `btn-icon ${className}`
+			: `btn btn-${variant} btn-${size} ${className}`.trim();
 </script>
 
-<button class={variant === 'icon' ? 'btn-icon' : `btn btn-${variant}`} {type} {disabled} on:click>
+<button class={buttonClass} {type} {disabled} on:click>
 	<slot />
 </button>
 
@@ -41,6 +50,39 @@
 
 	.btn-secondary:hover:not(:disabled) {
 		background: var(--color-accent);
+	}
+
+	.btn-success {
+		background: var(--color-success);
+		color: var(--nord0);
+	}
+
+	.btn-success:hover:not(:disabled) {
+		opacity: 0.9;
+	}
+
+	.btn-danger {
+		background: var(--color-error);
+		color: var(--nord6);
+	}
+
+	.btn-danger:hover:not(:disabled) {
+		opacity: 0.9;
+	}
+
+	.btn-small {
+		padding: var(--size-2) var(--size-3);
+		font-size: var(--font-size-1);
+	}
+
+	.btn-medium {
+		padding: var(--size-3) var(--size-5);
+		font-size: var(--font-size-2);
+	}
+
+	.btn-large {
+		padding: var(--size-4) var(--size-6);
+		font-size: var(--font-size-3);
 	}
 
 	.btn-icon {
