@@ -42,12 +42,12 @@
 		font-size: var(--font-size-2);
 	}
 
-	table tbody tr {
+	table :global(tbody tr) {
 		border-bottom: 1px solid var(--color-border);
 		transition: background-color 0.2s;
 	}
 
-	table tbody tr:hover {
+	table :global(tbody tr:hover) {
 		background-color: var(--color-bg-card);
 	}
 

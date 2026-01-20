@@ -1,30 +1,45 @@
 <script lang="ts">
-	export let open = $bindable(false);
-	export let title = '';
-	export let onConfirm: (() => void) | undefined = undefined;
-	export let onCancel: (() => void) | undefined = undefined;
-	export let confirmText: string | undefined = undefined;
-	export let cancelText = 'Anuluj';
-	export let confirmDisabled = false;
-	export let confirmVariant: 'primary' | 'danger' = 'danger';
-	export let size: 'small' | 'medium' | 'large' = 'medium';
-	export let showActions = true;
+	let {
+		open = $bindable(false),
+		title = '',
+		onConfirm = undefined,
+		onCancel = undefined,
+		confirmText = undefined,
+		cancelText = 'Anuluj',
+		confirmDisabled = false,
+		confirmVariant = 'danger',
+		size = 'medium',
+		showActions = true
+	}: {
+		open?: boolean;
+		title?: string;
+		onConfirm?: (() => void) | undefined;
+		onCancel?: (() => void) | undefined;
+		confirmText?: string | undefined;
+		cancelText?: string;
+		confirmDisabled?: boolean;
+		confirmVariant?: 'primary' | 'danger';
+		size?: 'small' | 'medium' | 'large';
+		showActions?: boolean;
+	} = $props();
 
-	let firstFocusable: HTMLElement | null = null;
-	let lastFocusable: HTMLElement | null = null;
+	let firstFocusable: HTMLElement | null = $state(null);
+	let lastFocusable: HTMLElement | null = $state(null);
 
-	$: if (open) {
-		setTimeout(() => {
-			const focusable = document.querySelectorAll(
-				'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-			);
-			if (focusable.length > 0) {
-				firstFocusable = focusable[0] as HTMLElement;
-				lastFocusable = focusable[focusable.length - 1] as HTMLElement;
-				firstFocusable?.focus();
-			}
-		}, 0);
-	}
+	$effect(() => {
+		if (open) {
+			setTimeout(() => {
+				const focusable = document.querySelectorAll(
+					'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+				);
+				if (focusable.length > 0) {
+					firstFocusable = focusable[0] as HTMLElement;
+					lastFocusable = focusable[focusable.length - 1] as HTMLElement;
+					firstFocusable?.focus();
+				}
+			}, 0);
+		}
+	});
 
 	function handleOverlayClick(event: MouseEvent) {
 		if (event.target === event.currentTarget) {
