@@ -45,6 +45,7 @@ This creates a release branch and PR with version bump.
 ### Publishing
 
 When release PR is merged to `main`:
+
 1. Version change detected automatically
 2. Quality gates run (format, lint, type check, security audit, build)
 3. Git tag created (`v{version}`)
@@ -54,6 +55,7 @@ When release PR is merged to `main`:
 ### Troubleshooting
 
 **Tag already exists**: Delete tag locally and remotely, then retry
+
 ```bash
 git tag -d v1.2.3
 git push origin :refs/tags/v1.2.3
