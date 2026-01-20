@@ -35,6 +35,9 @@ jobs:
       - name: Type check
         run: npm run check
 
+      - name: Test
+        run: npm test
+
       - name: Security audit
         run: npm run audit
 
