@@ -1,5 +1,9 @@
 name: Create Release PR
 
+# Requires PAT_TOKEN secret with repo scope to trigger workflows on created PR
+# Without PAT_TOKEN, workflow runs but created PR won't trigger CI checks
+# Create token at: https://github.com/settings/tokens/new?scopes=repo&description=Release%20PR%20Workflow
+
 on:
   workflow_dispatch:
     inputs:
@@ -32,7 +36,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
           ref: main
 
       - name: Setup Node.js
@@ -109,7 +113,7 @@ jobs:
       - name: Create pull request
         id: create-pr
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
         run: |
           PR_URL=$(gh pr create \
             --title "Release v${{ steps.version.outputs.version }}" \
