@@ -23,7 +23,8 @@
 		"format:check": "prettier --check .",
 		"lint": "eslint .",
 		"lint:fix": "eslint --fix .",
-		"audit": "npm audit --audit-level=moderate"
+		"audit": "npm audit --audit-level=moderate",
+		"test": "vitest"
 	},
 	"dependencies": {
 		"open-props": "^1.7.17"
@@ -46,6 +47,7 @@
 		"svelte": "^5.0.0",
 		"svelte-check": "^4.0.0",
 		"typescript": "^5.0.0",
-		"vite": "^7.0.0"
+		"vite": "^7.0.0",
+		"vitest": "^4.0.0"
 	}
 }
