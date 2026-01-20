@@ -55,7 +55,6 @@ jobs:
         with:
           node-version: '24'
           cache: 'npm'
-          registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
         if: steps.version-check.outputs.changed == 'true'
@@ -100,7 +99,9 @@ jobs:
 
       - name: Publish to npm
         if: steps.version-check.outputs.changed == 'true'
-        run: npm publish --access public --provenance
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ''
 
       - name: Summary
         if: steps.version-check.outputs.changed == 'true'
