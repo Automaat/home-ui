@@ -1,9 +1,13 @@
-name: Publish on Merge
+name: Publish on Push to Main
 
 on:
   push:
     branches:
       - main
+
+concurrency:
+  group: publish-on-merge
+  cancel-in-progress: false
 
 jobs:
   publish:
@@ -76,12 +80,6 @@ jobs:
         if: steps.version-check.outputs.changed == 'true'
         run: npm run build
 
-      - name: Publish to npm
-        if: steps.version-check.outputs.changed == 'true'
-        run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
       - name: Configure Git
         if: steps.version-check.outputs.changed == 'true'
         run: |
@@ -91,8 +89,19 @@ jobs:
       - name: Create and push tag
         if: steps.version-check.outputs.changed == 'true'
         run: |
-          git tag v${{ steps.version-check.outputs.version }}
-          git push origin v${{ steps.version-check.outputs.version }}
+          TAG_NAME="v${{ steps.version-check.outputs.version }}"
+          if git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
+            echo "Tag $TAG_NAME already exists, skipping tag creation"
+          else
+            git tag "$TAG_NAME"
+            git push origin "$TAG_NAME"
+          fi
+
+      - name: Publish to npm
+        if: steps.version-check.outputs.changed == 'true'
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Summary
         if: steps.version-check.outputs.changed == 'true'
@@ -102,5 +111,5 @@ jobs:
             echo ""
             echo "- **Version**: ${{ steps.version-check.outputs.version }}"
             echo "- **Tag**: v${{ steps.version-check.outputs.version }}"
-            echo "- **npm**: https://www.npmjs.com/package/@marcin-skalski/home-ui/v/${{ steps.version-check.outputs.version }}"
+            echo "- **npm**: https://www.npmjs.com/package/@mskalski/home-ui/v/${{ steps.version-check.outputs.version }}"
           } >> "$GITHUB_STEP_SUMMARY"

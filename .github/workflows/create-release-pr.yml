@@ -17,6 +17,10 @@ on:
         required: false
         type: string
 
+concurrency:
+  group: create-release-pr
+  cancel-in-progress: false
+
 jobs:
   create-release-pr:
     runs-on: ubuntu-latest
@@ -92,7 +96,7 @@ jobs:
       - name: Commit version bump
         run: |
           git add package.json package-lock.json
-          git commit -s -S -m "chore: bump version to ${{ steps.version.outputs.version }}"
+          git commit -s -m "chore: bump version to ${{ steps.version.outputs.version }}"
           git push origin release/v${{ steps.version.outputs.version }}
 
       - name: Create pull request
@@ -102,7 +106,7 @@ jobs:
         run: |
           PR_URL=$(gh pr create \
             --title "Release v${{ steps.version.outputs.version }}" \
-            --body "$(cat <<'EOF'
+            --body "$(cat <<'EOF' | sed 's/^          //'
           ## Release v${{ steps.version.outputs.version }}
 
           This PR bumps the version to ${{ steps.version.outputs.version }}.
