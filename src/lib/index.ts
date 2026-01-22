@@ -12,3 +12,4 @@ export { default as Table } from './components/Table.svelte';
 
 export * from './utils/format';
 export * from './utils/calculations';
+export * from './utils/mediaQuery';

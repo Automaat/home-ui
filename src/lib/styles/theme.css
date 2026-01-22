@@ -43,6 +43,19 @@
 	--color-error: var(--nord11);
 	--color-warning: var(--nord13);
 	--color-border: var(--nord4);
+
+	/* Responsive breakpoints */
+	--breakpoint-sm: 640px;
+	--breakpoint-md: 768px;
+	--breakpoint-lg: 1024px;
+
+	/* Responsive spacing */
+	--spacing-mobile: var(--size-3); /* 12px */
+	--spacing-tablet: var(--size-4); /* 16px */
+	--spacing-desktop: var(--size-6); /* 32px */
+
+	/* Touch targets */
+	--tap-target-min: 44px;
 }
 
 * {
@@ -136,4 +149,163 @@ table tbody tr:hover {
 table td {
 	padding: var(--size-4);
 	font-size: var(--font-size-2);
+}
+
+/* Responsive Grid Utilities */
+.grid {
+	display: grid;
+	gap: var(--size-4);
+}
+
+.grid-cols-1 {
+	grid-template-columns: 1fr;
+}
+
+.grid-cols-2 {
+	grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-cols-3 {
+	grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-cols-4 {
+	grid-template-columns: repeat(4, 1fr);
+}
+
+/* Auto-fit grids */
+.grid-auto-sm {
+	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.grid-auto-md {
+	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.grid-auto-lg {
+	grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+}
+
+/* Responsive spacing utilities */
+.p-responsive {
+	padding: var(--spacing-mobile);
+}
+
+.px-responsive {
+	padding-left: var(--spacing-mobile);
+	padding-right: var(--spacing-mobile);
+}
+
+.py-responsive {
+	padding-top: var(--spacing-mobile);
+	padding-bottom: var(--spacing-mobile);
+}
+
+/* Touch targets */
+.tap-target {
+	min-width: var(--tap-target-min);
+	min-height: var(--tap-target-min);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* Visibility utilities */
+.hide-mobile {
+	display: none;
+}
+
+.hide-tablet {
+	display: initial;
+}
+
+.hide-desktop {
+	display: initial;
+}
+
+/* Responsive breakpoints */
+@media (min-width: 640px) {
+	.sm\:grid-cols-2 {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.sm\:grid-cols-3 {
+		grid-template-columns: repeat(3, 1fr);
+	}
+
+	.sm\:grid-cols-4 {
+		grid-template-columns: repeat(4, 1fr);
+	}
+}
+
+@media (min-width: 768px) {
+	.p-responsive {
+		padding: var(--spacing-tablet);
+	}
+
+	.px-responsive {
+		padding-left: var(--spacing-tablet);
+		padding-right: var(--spacing-tablet);
+	}
+
+	.py-responsive {
+		padding-top: var(--spacing-tablet);
+		padding-bottom: var(--spacing-tablet);
+	}
+
+	.hide-mobile {
+		display: initial;
+	}
+
+	.hide-tablet {
+		display: none;
+	}
+
+	.md\:grid-cols-2 {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.md\:grid-cols-3 {
+		grid-template-columns: repeat(3, 1fr);
+	}
+
+	.md\:grid-cols-4 {
+		grid-template-columns: repeat(4, 1fr);
+	}
+}
+
+@media (min-width: 1024px) {
+	.p-responsive {
+		padding: var(--spacing-desktop);
+	}
+
+	.px-responsive {
+		padding-left: var(--spacing-desktop);
+		padding-right: var(--spacing-desktop);
+	}
+
+	.py-responsive {
+		padding-top: var(--spacing-desktop);
+		padding-bottom: var(--spacing-desktop);
+	}
+
+	.hide-tablet {
+		display: initial;
+	}
+
+	.hide-desktop {
+		display: none;
+	}
+
+	.lg\:grid-cols-2 {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.lg\:grid-cols-3 {
+		grid-template-columns: repeat(3, 1fr);
+	}
+
+	.lg\:grid-cols-4 {
+		grid-template-columns: repeat(4, 1fr);
+	}
 }
