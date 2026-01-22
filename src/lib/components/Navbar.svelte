@@ -34,7 +34,7 @@
 
 		return () => {
 			window.removeEventListener('keydown', handleEscape);
-		document.body.style.overflow = '';
+			document.body.style.overflow = '';
 		};
 	});
 
