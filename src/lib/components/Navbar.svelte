@@ -143,7 +143,7 @@
 		position: fixed;
 		top: var(--size-3);
 		left: var(--size-3);
-		z-index: 1002;
+		z-index: 10002;
 		background: var(--color-bg-card);
 		border: 1px solid var(--color-border);
 		border-radius: var(--radius-2);
@@ -195,7 +195,7 @@
 			width: 100%;
 			height: 100%;
 			background: rgba(0, 0, 0, 0.5);
-			z-index: 1000;
+			z-index: 10000;
 		}
 
 		.navbar {
@@ -205,7 +205,7 @@
 			transition:
 				left 0.3s ease,
 				width 0.3s ease;
-			z-index: 1001;
+			z-index: 10001;
 		}
 
 		.navbar.mobile-open {
