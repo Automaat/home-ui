@@ -23,6 +23,13 @@ export function useMediaQuery(query: string) {
 }
 
 /**
+ * Breakpoint alignment with CSS (theme.css):
+ * - CSS defines breakpoints as min-width: --breakpoint-md: 768px, --breakpoint-lg: 1024px
+ * - JS uses max-width: 767px for mobile and 1023px for tablet to align with CSS min-width boundaries
+ * - This ensures no gap or overlap: mobile (<768px), tablet (768-1023px), desktop (>=1024px)
+ */
+
+/**
  * Reactive store: true when viewport is mobile (max-width: 767px)
  */
 export const isMobile = useMediaQuery('(max-width: 767px)');

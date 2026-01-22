@@ -216,11 +216,11 @@ table td {
 }
 
 .hide-tablet {
-	display: initial;
+	display: none;
 }
 
 .hide-desktop {
-	display: initial;
+	display: none;
 }
 
 /* Responsive breakpoints */
