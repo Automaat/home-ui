@@ -105,7 +105,7 @@
 
 <nav class="navbar" class:collapsed class:mobile-open={mobileMenuOpen}>
 	<div class="nav-container">
-		{#if brand && !collapsed}
+		{#if brand && (!collapsed || mobileMenuOpen)}
 			<h1 class="brand">{brand}</h1>
 		{/if}
 
@@ -119,7 +119,7 @@
 					on:click={closeMobileMenu}
 				>
 					<span class="icon">{item.icon}</span>
-					{#if !collapsed}
+					{#if !collapsed || mobileMenuOpen}
 						<span class="label">{item.label}</span>
 					{/if}
 				</a>
